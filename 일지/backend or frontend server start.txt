@@ -1,0 +1,23 @@
+backend or frontend server start
+
+-----------------------------------------
+
+backend server start
+
+node index.js
+
+-----------------------------------------
+
+frontend server start
+npm run dev
+
+-----------------------------------------
+
+cmd에서 파일 목록 조회
+dir
+
+
+폴더 위치 기본
+
+cd // yangc/onedrive/desktop/폴더/02_개인 파일/project
+/frontend // (backend)
