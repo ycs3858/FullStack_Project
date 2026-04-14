@@ -24,7 +24,7 @@ function App() {
 
       const data = await res.json();
 
-      console.log("서버응답:", data);
+      console.log("서버응답:", data.message);
     }
     catch (err){
       console.error("에러 발생:", err);

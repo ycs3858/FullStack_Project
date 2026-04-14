@@ -1,9 +1,11 @@
 const express = require('express');
 const app = express();
 const mysql = require('mysql2');
+const cors = require('cors');
 
 
 // JSON 요청 처리
+app.use(cors());
 app.use(express.json());
 
 // DB 연결
@@ -74,14 +76,14 @@ app.post('/login', (req, res) => {
 
   db.query(sql, [userid, password], (err, results) => {
     if (err) {
-      res.send('로그인 실패');
+      res.json({message : '로그인 실패' });
     }
     else {
       if (results.length > 0) {
-        res.send('로그인 성공');
+        res.json({message : '로그인 성공' });
       }
       else {
-        res.send('아이디 또는 비밀번호 틀림');
+        res.json({message : '아이디 또는 비밀번호 틀림' });
       }
     }
   });
