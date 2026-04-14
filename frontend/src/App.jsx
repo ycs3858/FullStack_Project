@@ -3,10 +3,13 @@ import { useState } from "react";
 function App() {
   const [id, setId] = useState("");
   const [password, setPassword] = useState("");
+  const [message, setMessage] = useState("");
+
+  
 
   const handleLogin = async() => {
     if (!id || !password){
-      console.log("아이디와 패스워드를 입력하세요.");
+      setMessage("아이디와 패스워드를 입력하세요.");
       return;
     }
 
@@ -24,12 +27,17 @@ function App() {
 
       const data = await res.json();
 
-      console.log("서버응답:", data.message);
+      setMessage("서버응답:" + data.message);
+      console.log("서버 응답 : ", id, password, data.message);
     }
     catch (err){
       console.error("에러 발생:", err);
+      setMessage("서버 오류 발생");
     }
   };
+
+
+
 
   return (
     <div>
@@ -54,6 +62,10 @@ function App() {
       </div>
 
       <button onClick={handleLogin}>로그인</button>
+
+      <p style = {{ color : message.includes("성공") ? "green" : "red"}}>
+        {message}
+      </p>
 
       <p>아이디 : {id}</p>
       <p>비밀번호 : {password}</p>
