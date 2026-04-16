@@ -1,75 +1,34 @@
-import { useState } from "react";
+// 라우팅 관련 기능 import
+import { Routes, Route } from "react-router-dom";
+
+// 각 페이지 컴포넌트 import
+import Login from "./Login";
+import Home from "./Home";
+
+// 보호된 페이지를 위한 컴포넌트 import
+import ProtectedRoute from "./ProtectedRoute";
 
 function App() {
-  const [id, setId] = useState("");
-  const [password, setPassword] = useState("");
-  const [message, setMessage] = useState("");
-
-  
-
-  const handleLogin = async() => {
-    if (!id || !password){
-      setMessage("아이디와 패스워드를 입력하세요.");
-      return;
-    }
-
-    try {
-      const res = await fetch("http://localhost:3000/login", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body : JSON.stringify({
-          userid : id,
-          password : password,
-        }),
-      });
-
-      const data = await res.json();
-
-      setMessage("서버응답:" + data.message);
-      console.log("서버 응답 : ", id, password, data.message);
-    }
-    catch (err){
-      console.error("에러 발생:", err);
-      setMessage("서버 오류 발생");
-    }
-  };
-
-
-
-
   return (
-    <div>
-      <h1>로그인</h1>
+    // Routes: 여러 페이지 경로를 관리
+    <Routes>
 
-      <div>
-        <input
-          type="text"
-          placeholder="아이디"
-          value={id}
-          onChange={(e) => setId(e.target.value)}
-        />
-      </div>
+      {/* "/" 경로로 들어오면 Login 페이지 보여줌 */}
+      {/* "/" 경로 → 로그인 페이지 */}
+      <Route path="/" element={<Login />} />
 
-      <div>
-        <input
-          type="password"
-          placeholder="비밀번호"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-        />
-      </div>
+      {/* "/home" 경로 → 보호된 페이지 */}
+      <Route
+        path="/home"
+        element={
+          // 🔥 ProtectedRoute로 감싸서 접근 제어
+          <ProtectedRoute>
+            <Home /> {/* 실제 보여줄 페이지 */}
+          </ProtectedRoute>
+        }
+      />
 
-      <button onClick={handleLogin}>로그인</button>
-
-      <p style = {{ color : message.includes("성공") ? "green" : "red"}}>
-        {message}
-      </p>
-
-      <p>아이디 : {id}</p>
-      <p>비밀번호 : {password}</p>
-    </div>
+    </Routes>
   );
 }
 
