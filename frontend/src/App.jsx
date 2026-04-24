@@ -4,6 +4,8 @@ import { Routes, Route } from "react-router-dom";
 // 각 페이지 컴포넌트 import
 import Login from "./Login";
 import Home from "./Home";
+import Signup from "./Signup";
+
 
 // 보호된 페이지를 위한 컴포넌트 import
 import ProtectedRoute from "./ProtectedRoute";
@@ -27,6 +29,9 @@ function App() {
           </ProtectedRoute>
         }
       />
+
+      {/* "/signup" 경로 → 회원가입 페이지 */}
+      <Route path="/signup" element={<Signup />} />
 
     </Routes>
   );
