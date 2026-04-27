@@ -64,7 +64,7 @@ function Signup() {
       <h1>회원가입</h1>
 
       {/* 회원가입 정보 입력하는 곳 */}
-      <div class = 'input_text'>
+      <div className = 'input_text'>
 
         {/* 아이디 입력창 */}
         <input
@@ -85,7 +85,7 @@ function Signup() {
       </div>
 
       {/* 버튼 입력 공간 */}
-      <div class = "input_button">
+      <div className = "input_button">
 
         {/* 회원가입 버튼 */}
         <button onClick={handleSignup}>회원가입</button>

@@ -39,19 +39,27 @@ function Login() {
         }),
       });
 
+
       // 서버 응답 JSON으로 변환
       const data = await res.json();
+
 
       // 로그인 결과 메시지 저장 (UI에 표시됨)
       setMessage(data.message);
 
       // 로그인 성공 시 홈 페이지로 이동
       if (data.message === "로그인 성공") {
+        // 테스트 로그 등록
+
 
         // sessionStorage로 변경 (브라우저 닫으면 자동 삭제)
         // 로그아웃 해야만 삭제할 경우 localStorage로 변경
         // sessionStorage.setItem("isLogin", "true");
-        localStorage.setItem("isLogin", "true");
+        // localStorage.setItem("isLogin", "true");
+
+        // 토큰 저장
+        localStorage.setItem("token", data.token);
+
         navigate("/home");
       }
 
@@ -66,7 +74,7 @@ function Login() {
     <div>
       <h1>로그인</h1>
 
-      <div class = 'input_login'>
+      <div className = 'input_login'>
         {/* 아이디 입력창 */}
         <input
           type="text"
@@ -84,7 +92,7 @@ function Login() {
         />
       </div>
 
-      <div class = 'button_list'>
+      <div className = 'button_list'>
         {/* 로그인 버튼 */}
         <button onClick = {handleLogin}> 로그인 </button>
 
