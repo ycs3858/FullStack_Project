@@ -90,6 +90,10 @@ function Signup() {
         {/* 회원가입 버튼 */}
         <button onClick={handleSignup}>회원가입</button>
 
+        {/* 되돌아가기 */}
+        {/* 회원가입 버튼 */}
+        <button onClick = {() => navigate("/")}> 돌아가기 </button>
+
       </div>
 
       {/* 서버 응답 메시지 출력 */}
