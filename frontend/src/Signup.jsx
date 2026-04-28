@@ -92,7 +92,7 @@ function Signup() {
 
         {/* 되돌아가기 */}
         {/* 회원가입 버튼 */}
-        <button onClick = {() => navigate("/")}> 돌아가기 </button>
+        <button onClick = {() => navigate("/login")}> 돌아가기 </button>
 
       </div>
 

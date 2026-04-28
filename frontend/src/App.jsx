@@ -17,7 +17,7 @@ function App() {
 
       {/* "/" 경로로 들어오면 Login 페이지 보여줌 */}
       {/* "/" 경로 → 로그인 페이지 */}
-      <Route path="/" element={<Login />} />
+      <Route path="/" element={<Signup />} />
 
       {/* "/home" 경로 → 보호된 페이지 */}
       <Route
@@ -32,6 +32,9 @@ function App() {
 
       {/* "/signup" 경로 → 회원가입 페이지 */}
       <Route path="/signup" element={<Signup />} />
+
+      {/* "/login" 경로 → 로그인 페이지 */}
+      <Route path="/login" element={<Login />} />
 
     </Routes>
   );
