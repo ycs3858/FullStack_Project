@@ -15,3 +15,13 @@ router.post('/login', userController.login);
 
 // 외부에서 사용 가능하도록 export
 module.exports = router;
+
+const { verifyToken } = require('../middlewares/authMiddleware');
+
+// 🔥 로그인 확인 API
+router.get('/me', verifyToken, (req, res) => {
+  res.json({
+    message: "인증 성공",
+    user: req.user
+  });
+});
