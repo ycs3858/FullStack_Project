@@ -67,8 +67,15 @@ function Home() {
       <button onClick={handleLogout}>로그아웃</button>
 
       <br/>
-        {/* 로그인 확인버튼 */}
-        <button onClick={checkLogin}>로그인 확인</button>
+
+      {/* 로그인 확인버튼 */}
+      <button onClick={checkLogin}>로그인 확인</button>
+
+      <br/>
+
+      {/* 게시판 이동 버튼 */}
+      <button onClick={() => navigate("/board")}> 게시판 </button>
+    
     </div>
   );
 }

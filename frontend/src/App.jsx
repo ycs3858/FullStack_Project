@@ -6,6 +6,10 @@ import Login from "./Login";
 import Home from "./Home";
 import Signup from "./Signup";
 
+import Board from "./Board";
+import Write from "./Write";
+
+
 
 // 보호된 페이지를 위한 컴포넌트 import
 import ProtectedRoute from "./ProtectedRoute";
@@ -17,7 +21,7 @@ function App() {
 
       {/* "/" 경로로 들어오면 Login 페이지 보여줌 */}
       {/* "/" 경로 → 로그인 페이지 */}
-      <Route path="/" element={<Signup />} />
+      <Route path="/" element={<Login />} />
 
       {/* "/home" 경로 → 보호된 페이지 */}
       <Route
@@ -35,6 +39,10 @@ function App() {
 
       {/* "/login" 경로 → 로그인 페이지 */}
       <Route path="/login" element={<Login />} />
+
+      <Route path = "/board" element = {<Board />} />
+
+      <Route path = "/write" element = {<Write />} />
 
     </Routes>
   );

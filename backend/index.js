@@ -13,6 +13,12 @@ const userRoutes = require('./routes/userRoutes');
 app.use(cors());
 app.use(express.json());
 
+// 게시판 라우터 가져오기
+const postRoutes = require('./routes/postRoutes');
+
+// /post로 시작하는 요청 → postRoutes로 전달
+app.use('/post', postRoutes);
+
 
 // 기본 테스트 API
 app.get('/', (req, res) => {
