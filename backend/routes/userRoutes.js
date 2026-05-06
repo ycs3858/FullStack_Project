@@ -16,6 +16,7 @@ router.post('/login', userController.login);
 // 외부에서 사용 가능하도록 export
 module.exports = router;
 
+// JWT 로그인 확인 API 
 const { verifyToken } = require('../middlewares/authMiddleware');
 
 // 🔥 로그인 확인 API

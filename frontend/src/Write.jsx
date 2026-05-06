@@ -5,7 +5,7 @@ function Write() {
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
 
-  const navigate = useNavigate();
+  const navigate = useNavigate();   
 
   const handleSubmit = async () => {
     const token = localStorage.getItem("token");

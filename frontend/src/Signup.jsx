@@ -1,5 +1,5 @@
 // React에서 상태(state)를 사용하기 위한 훅
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 // 페이지 이동을 위한 훅 (react-router)
 import { useNavigate } from "react-router-dom";
@@ -57,6 +57,10 @@ function Signup() {
       setMessage("서버 오류 발생");
     }
   };
+
+  useEffect(() => {
+    document.title = "회원가입";
+  }, []);
 
   // 🔥 화면(UI)
   return (

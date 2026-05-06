@@ -4,6 +4,11 @@ import { useState } from "react";
 // 페이지 이동을 위한 훅
 import { useNavigate } from "react-router-dom";
 
+// css 파일 적용
+import "./Login.css";
+
+import { useEffect } from "react";
+
 function Login() {
   // 아이디 입력값 저장
   const [id, setId] = useState("");
@@ -70,44 +75,52 @@ function Login() {
     }
   };
 
+
+  useEffect(() => {
+    document.title = "로그인";
+  }, []);
+
   return (
-    <div>
-      <h1>로그인</h1>
+    <div className="main_content">
+      <div className="main_container">
+        <h1>로그인</h1>
 
-      <div className = 'input_login'>
-        {/* 아이디 입력창 */}
-        <input
-          type="text"
-          placeholder="아이디"
-          value={id}
-          onChange={(e) => setId(e.target.value)} // 입력 시 상태 업데이트
-        />
+        <div className = 'input_login'>
+          {/* 아이디 입력창 */}
+          <input
+            type="text"
+            placeholder="아이디"
+            value={id}
+            onChange={(e) => setId(e.target.value)} // 입력 시 상태 업데이트
+          />
+          <br/>
 
-        {/* 비밀번호 입력창 */}
-        <input
-          type="password"
-          placeholder="비밀번호"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-        />
+          {/* 비밀번호 입력창 */}
+          <input
+            type="password"
+            placeholder="비밀번호"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+          />
+        </div>
+
+        <div className = 'button_list'>
+          {/* 로그인 버튼 */}
+          <button onClick = {handleLogin}> 로그인 </button>
+
+          {/* 회원가입 버튼 */}
+          <button onClick = {() => navigate("/signup")}> 회원가입 </button>
+        </div>
+
+        {/* 로그인 결과 메시지 출력 */}
+        <p
+          style={{
+            color: message.includes("성공") ? "green" : "red",
+          }}
+        >
+          {message}
+        </p>
       </div>
-
-      <div className = 'button_list'>
-        {/* 로그인 버튼 */}
-        <button onClick = {handleLogin}> 로그인 </button>
-
-        {/* 회원가입 버튼 */}
-        <button onClick = {() => navigate("/signup")}> 회원가입 </button>
-      </div>
-
-      {/* 로그인 결과 메시지 출력 */}
-      <p
-        style={{
-          color: message.includes("성공") ? "green" : "red",
-        }}
-      >
-        {message}
-      </p>
     </div>
   );
 }
