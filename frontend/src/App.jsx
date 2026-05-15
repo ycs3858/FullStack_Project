@@ -3,12 +3,13 @@ import { Routes, Route } from "react-router-dom";
 
 // 각 페이지 컴포넌트 import
 import Login from "./Login";
-import Home from "./Home";
 import Signup from "./Signup";
 
-import Board from "./Board";
-import Write from "./Write";
+import Home from "./Home";
 
+import Board from "./Board";
+import PostDetail from "./PostDetail";
+import Write from "./Write";
 
 
 // 보호된 페이지를 위한 컴포넌트 import
@@ -40,8 +41,13 @@ function App() {
       {/* "/login" 경로 → 로그인 페이지 */}
       <Route path="/login" element={<Login />} />
 
+      {/* 게시판 / 글목록 */}
       <Route path = "/board" element = {<Board />} />
 
+      {/* 게시판 / 글 상세보기 */}
+      <Route path="/post/:id" element={<PostDetail />} />
+
+      {/* 게시판 / 글쓰기 */}
       <Route path = "/write" element = {<Write />} />
 
     </Routes>

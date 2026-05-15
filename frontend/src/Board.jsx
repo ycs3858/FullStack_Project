@@ -18,6 +18,10 @@ function Board() {
     setPosts(data);
   };
 
+    useEffect(() => {
+    document.title = "게시판";
+  }, []);
+
   return (
     <div>
       <h1>게시판</h1>
@@ -27,15 +31,16 @@ function Board() {
         글쓰기
       </button>
 
+      <button onClick={() => navigate("/home")}> 홈으로 </button>
+
       <hr />
 
       {/* 글 목록 출력 */}
       {posts.map((post) => (
         <div key={post.id}>
-          <h3>{post.title}</h3>
-          <p>{post.content}</p>
-          <small>{post.userid}</small>
-          <hr />
+          <h3 onClick = {() => navigate(`/post/${post.id}`)}>
+            {post.title}
+          </h3>
         </div>
       ))}
     </div>

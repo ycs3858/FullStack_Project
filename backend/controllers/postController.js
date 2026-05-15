@@ -46,3 +46,34 @@ exports.getPosts = (req, res) => {
     res.json(results);
   });
 };
+
+
+
+// 게시글 상세조회
+exports.detailPost = (req, res) => {
+
+  // URL에서 id 가져오기
+  const { id } = req.params;
+
+  // 게시글 조회 쿼리
+  const sql = 'SELECT * FROM posts WHERE id=?';
+
+  db.query(sql, [id], (err, result) => {
+
+    if (err) {
+      console.error(err);
+      return res.send('조회 실패');
+    }
+
+    // 게시글 없을 때
+    if (result.length === 0) {
+      return res.status(404).json({
+        message : '게시글 없음'
+      });
+    }
+
+    // 게시글 반환
+    return res.json(result[0]);
+
+  });
+};

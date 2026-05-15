@@ -50,6 +50,8 @@ function Write() {
       <br />
 
       <button onClick={handleSubmit}>작성</button>
+
+      <button onClick={() => navigate("/board")}>돌아가기</button>
     </div>
   );
 }
