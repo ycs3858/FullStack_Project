@@ -44,7 +44,10 @@ function PostDetail() {
           <br />
 
           <small>{post.created_at}</small>
+          <br />
+          <small> {new Date(post.created_at).toLocaleString()} </small>
 
+          <br />
           <button onClick={handleDelete}> 삭제 </button>
 
         </div>
