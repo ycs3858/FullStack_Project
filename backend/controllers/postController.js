@@ -77,3 +77,29 @@ exports.detailPost = (req, res) => {
 
   });
 };
+
+
+// 게시글 삭제
+exports.deletePost = (req, res) => {
+
+  // URL에서 id 가져오기
+  const { id } = req.params;
+
+  // SQL
+  const sql = 'DELETE FROM posts WHERE id=?';
+
+  // DB 실행
+  db.query(sql, [id], (err, result) => {
+
+    if (err) {
+      console.error(err);
+      return res.send('삭제 실패');
+    }
+
+    return res.json({
+      message: '삭제 완료'
+    });
+
+  });
+
+};

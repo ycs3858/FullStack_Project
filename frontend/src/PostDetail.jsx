@@ -22,6 +22,12 @@ function PostDetail() {
     setPost(data);
   };
 
+  const handleDelete = async () => {
+    await fetch(`http://localhost:3000/post/delete/${id}`, {method: "DELETE",});
+
+    navigate ('/board')
+  };
+
   return (
     <div>
       <h1>게시판 상세보기</h1>
@@ -38,6 +44,8 @@ function PostDetail() {
           <br />
 
           <small>{post.created_at}</small>
+
+          <button onClick={handleDelete}> 삭제 </button>
 
         </div>
       )}
