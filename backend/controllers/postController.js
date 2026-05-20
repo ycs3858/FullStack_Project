@@ -32,7 +32,6 @@ exports.createPost = (req, res) => {
   }
 };
 
-
 // 글 목록 조회
 exports.getPosts = (req, res) => {
   const sql = 'SELECT * FROM posts ORDER BY created_at DESC';
@@ -46,8 +45,6 @@ exports.getPosts = (req, res) => {
     res.json(results);
   });
 };
-
-
 
 // 게시글 상세조회
 exports.detailPost = (req, res) => {
@@ -78,6 +75,34 @@ exports.detailPost = (req, res) => {
   });
 };
 
+// 게시글 수정
+exports.updatePost = (req, res) => {
+  
+  //URL에서 게시글 id 가져오기
+  const {id} = req.params;
+
+  // 프론트에서 보낸 title, content 가져오기
+  const {title, content} = req.body;
+
+  // 수정 sql 작성
+  const sql = 'UPDATE posts SET title=?, content=? WHERE id=?';
+
+  // db 실행
+  db.query(sql, [title, content, id], (err, result) => {
+    
+    // 에러 발생
+    if (err) {
+      console.error(err);
+      return res.send('수정 실패');
+    }
+
+    // 성공
+    return res.json({
+      message : '수정 완료'
+    });
+    
+  });
+};
 
 // 게시글 삭제
 exports.deletePost = (req, res) => {

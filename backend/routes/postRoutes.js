@@ -14,6 +14,8 @@ router.get('/list', postController.getPosts);
 // 글 상세보기
 router.get('/detail/:id', postController.detailPost);
 
+// 글 수정하기
+router.put('/update/:id', postController.updatePost);
 
 // 글 삭제하기
 router.delete('/delete/:id', postController.deletePost);
