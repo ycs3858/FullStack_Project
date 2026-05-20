@@ -8,8 +8,9 @@ import Signup from "./Signup";
 import Home from "./Home";
 
 import Board from "./Board";
-import PostDetail from "./PostDetail";
 import Write from "./Write";
+import PostDetail from "./PostDetail";
+import Edit from "./Edit";
 
 
 // 보호된 페이지를 위한 컴포넌트 import
@@ -44,11 +45,14 @@ function App() {
       {/* 게시판 / 글목록 */}
       <Route path = "/board" element = {<Board />} />
 
+      {/* 게시판 / 글쓰기 */}
+      <Route path = "/write" element = {<Write />} />
+
       {/* 게시판 / 글 상세보기 */}
       <Route path="/post/:id" element={<PostDetail />} />
 
-      {/* 게시판 / 글쓰기 */}
-      <Route path = "/write" element = {<Write />} />
+      {/* 게시판 / 글 수정 */}
+      <Route path="/edit/:id" element={<Edit />} />
 
     </Routes>
   );

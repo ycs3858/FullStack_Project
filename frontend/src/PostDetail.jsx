@@ -49,6 +49,8 @@ function PostDetail() {
 
           <br />
           <button onClick={handleDelete}> 삭제 </button>
+          <button onClick={() => navigate(`/edit/${id}`)}> 수정 </button>
+          <button onClick={() => navigate('/board')}> 돌아가기 </button>
 
         </div>
       )}
