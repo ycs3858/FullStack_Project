@@ -43,16 +43,32 @@ function App() {
       <Route path="/login" element={<Login />} />
 
       {/* 게시판 / 글목록 */}
-      <Route path = "/board" element = {<Board />} />
+      <Route path = "/board" element = {
+        <ProtectedRoute>
+          <Board />
+        </ProtectedRoute>
+      } />
 
       {/* 게시판 / 글쓰기 */}
-      <Route path = "/write" element = {<Write />} />
+      <Route path = "/write" element = {
+        <ProtectedRoute>
+          <Write />
+        </ProtectedRoute>
+      } />
 
       {/* 게시판 / 글 상세보기 */}
-      <Route path="/post/:id" element={<PostDetail />} />
+      <Route path="/post/:id" element={
+        <ProtectedRoute>
+          <PostDetail />
+        </ProtectedRoute>
+      } />
 
       {/* 게시판 / 글 수정 */}
-      <Route path="/edit/:id" element={<Edit />} />
+      <Route path="/edit/:id" element={
+        <ProtectedRoute>
+          <Edit />
+        </ProtectedRoute>
+      } />
 
     </Routes>
   );

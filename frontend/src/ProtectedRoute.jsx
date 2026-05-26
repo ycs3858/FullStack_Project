@@ -1,24 +1,66 @@
-// 페이지 이동을 위한 컴포넌트 import
-import { Navigate } from "react-router-dom";
+// React Hook import
+import { useEffect } from "react";
 
-// children: 이 컴포넌트로 감싸진 실제 페이지 (예: Home)
+// 페이지 이동 관련 import
+import { Navigate, useNavigate }
+from "react-router-dom";
+
+// children: 감싸진 실제 페이지
 function ProtectedRoute({ children }) {
 
-  // localStorage에 저장된 로그인 여부 가져오기(로그아웃을 해야만 로그아웃)
-  // sessionStorage에 저장된 로그인 여부 가져오기(브라우저 종료 시 로그아웃)
-  // (로그인 성공 시 저장해둔 값)
-  //const isLogin = localStorage.getItem("isLogin");
-  // const isLogin = sessionStorage.getItem("isLogin");
+  // 페이지 이동 기능
+  const navigate = useNavigate();
+
+  // localStorage에 저장된 JWT 가져오기
   const token = localStorage.getItem("token");
 
-  // 로그인 안 되어 있으면
-  if (!token) {
+  // 페이지 들어올 때 토큰 유효성 검사
+  useEffect(() => {
 
-    // 로그인 페이지("/")로 강제 이동
+    const checkToken = async () => {
+
+      // 토큰 없으면 검사 안함
+      if (!token){
+        return;
+      }
+
+      // 백엔드에 현재 로그인 상태 확인 요청
+      const res = await fetch(
+        "http://localhost:3000/user/me",
+        {
+          headers: {
+            Authorization: token,
+          },
+        }
+      );
+
+      // 토큰 만료 또는 위조
+      if (
+        res.status === 401 ||
+        res.status === 403
+      ) {
+
+        // 토큰 삭제
+        localStorage.removeItem("token");
+
+        // 안내 메시지
+        alert("로그인 만료");
+
+        // 홈으로 이동
+        navigate("/");
+      }
+    };
+
+    checkToken();
+
+  }, [navigate, token]);
+
+  // 로그인 안 되어 있으면 홈으로 이동
+  if (!token) {
     return <Navigate to="/" />;
   }
 
-  // 로그인 되어 있으면 원래 페이지(children) 보여줌
+  // 로그인 되어 있으면 원래 페이지 보여줌
   return children;
 }
 
