@@ -57,7 +57,9 @@ exports.login = (req, res) => {
     // 로그인 성공
     if (results.length > 0) {
       const token = jwt.sign(
-        { userid : userid}, // 토큰에 넣을 정보
+        { userid : results[0].userid,
+          role : results[0].role
+        }, // 토큰에 넣을 정보
         SECRET_KEY,         // 비밀키
         {expiresIn : '5m'}  // 5분간 유효, 1h, 1m, 1s
       );

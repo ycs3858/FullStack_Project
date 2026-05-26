@@ -39,11 +39,8 @@ function PostDetail() {
 
           <p>{post.content}</p>
 
-          <small>{post.userid}</small>
+          <small>작성자 : {post.userid}</small>
 
-          <br />
-
-          <small>{post.created_at}</small>
           <br />
           <small> {new Date(post.created_at).toLocaleString()} </small>
 

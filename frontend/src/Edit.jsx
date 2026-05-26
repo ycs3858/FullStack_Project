@@ -16,6 +16,9 @@ function Edit() {
   // 예: /edit/3 → id = 3
   const { id } = useParams();
 
+  // 토큰 정보 가져오기
+  const token = localStorage.getItem('token');
+
   // 기존 게시글 불러오는 함수
   const fetchPost = async () => {
 
@@ -44,7 +47,7 @@ function Edit() {
         {
             method : 'PUT',
             headers : {
-                'Content-Type' : 'application/json'
+                'Content-Type' : 'application/json', Authorization : token
             },
             // 실제 수정 데이터 전송
             body : JSON.stringify({

@@ -84,24 +84,61 @@ exports.updatePost = (req, res) => {
   // 프론트에서 보낸 title, content 가져오기
   const {title, content} = req.body;
 
-  // 수정 sql 작성
-  const sql = 'UPDATE posts SET title=?, content=? WHERE id=?';
+  // 현재 로그인한 사용자 정보 확인
+  const loginUser = req.user.userid;
+
+  // 수정 권한 확인 sql
+  const checkSql = 'Select userid FROM posts WHERE id=?';
 
   // db 실행
-  db.query(sql, [title, content, id], (err, result) => {
+  db.query(checkSql, [id], (err, results) => {
     
-    // 에러 발생
-    if (err) {
+    // DB 에러 발생 시
+    if (err){
       console.error(err);
-      return res.send('수정 실패');
+      return res.send('에러 발생');
     }
 
-    // 성공
-    return res.json({
-      message : '수정 완료'
-    });
+    // 게시글이 없는 경우
+    if (results.length == 0){
+      return res.send('게시글 없음');
+    }
+
+    // 게시글 작성자 가져오기
+    // results[0] = 게시글 정보 객체
+    // .userid = 작성자 아이디
+    const postUser = results[0].userid;
+
+    // 권한 검사
+    if(loginUser !== postUser){
+      return res.status(403).json({
+        message : '수정 권한 없음'
+      });
+    }
+
+    // 수정 sql 작성
+    const sql = 'UPDATE posts SET title=?, content=? WHERE id=?';
+
+    // db 실행
+    db.query(sql, [title, content, id], (err, result) => {
+
+      console.log(result);
     
+      // 에러 발생
+      if (err) {
+        console.error(err);
+        return res.send('수정 실패');
+      }
+
+      // 성공
+      return res.json({
+        message : '수정 완료'
+      });
+    
+    });
+
   });
+
 };
 
 // 게시글 삭제
