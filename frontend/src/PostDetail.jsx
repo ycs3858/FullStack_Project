@@ -8,6 +8,9 @@ function PostDetail() {
   const navigate = useNavigate();
   const { id } = useParams();
 
+  // 토큰 정보 가져오기
+  const token = localStorage.getItem('token');
+
   // 페이지 들어올 때 게시글 가져오기
   useEffect(() => {
     fetchPosts();
@@ -23,7 +26,10 @@ function PostDetail() {
   };
 
   const handleDelete = async () => {
-    await fetch(`http://localhost:3000/post/delete/${id}`, {method: "DELETE",});
+    await fetch(`http://localhost:3000/post/delete/${id}`, 
+      {method: "DELETE",
+        headers : {Authorization : token}
+      });
 
     navigate ('/board')
   };

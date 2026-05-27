@@ -121,8 +121,6 @@ exports.updatePost = (req, res) => {
 
     // db 실행
     db.query(sql, [title, content, id], (err, result) => {
-
-      console.log(result);
     
       // 에러 발생
       if (err) {
@@ -147,19 +145,54 @@ exports.deletePost = (req, res) => {
   // URL에서 id 가져오기
   const { id } = req.params;
 
-  // SQL
-  const sql = 'DELETE FROM posts WHERE id=?';
+  const loginUser = req.user.userid;
+  const loginRole = req.user.role;
+
+  // 삭제 권한 확인 sql
+  const checkSql = 'Select userid FROM posts WHERE id=?';
 
   // DB 실행
-  db.query(sql, [id], (err, result) => {
+  db.query(checkSql, [id], (err, results) => {
 
-    if (err) {
+    // DB 에러 발생 시
+    if (err){
       console.error(err);
-      return res.send('삭제 실패');
+      return res.send('에러 발생');
     }
 
-    return res.json({
-      message: '삭제 완료'
+    // 게시글이 없는 경우
+    if (results.length == 0){
+      return res.send('게시글 없음')
+    }
+
+    // 게시글 작성자 가져오기
+    // results[0] = 게시글 정보 객체
+    // .userid = 작성자 id
+    const postUser = results[0].userid;
+
+    // 권한 검사
+    if(loginUser !== postUser && loginRole !== 'admin'){
+      return res.status(403).json({
+        message : '삭제 권한 없음'
+      });
+    }
+
+
+    // 삭제 DB 실행
+    // sql
+    const sql = 'DELETE FROM posts WHERE id=?';
+
+    db.query(sql, [id], (err, result) => {
+
+      if (err) {
+        console.error(err);
+        return res.send('삭제 실패');
+      }
+
+      return res.json({
+        message : '삭제 완료'
+      });
+
     });
 
   });

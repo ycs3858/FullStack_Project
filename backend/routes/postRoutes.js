@@ -19,4 +19,4 @@ router.get('/detail/:id', postController.detailPost);
 router.put('/update/:id', verifyToken, postController.updatePost);
 
 // 글 삭제하기
-router.delete('/delete/:id', postController.deletePost);
+router.delete('/delete/:id', verifyToken, postController.deletePost);
