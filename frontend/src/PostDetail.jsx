@@ -11,6 +11,8 @@ function PostDetail() {
   // 토큰 정보 가져오기
   const token = localStorage.getItem('token');
 
+  const user = JSON.parse(atob(token.split('.')[1]));
+
   // 페이지 들어올 때 게시글 가져오기
   useEffect(() => {
     fetchPosts();
@@ -51,8 +53,19 @@ function PostDetail() {
           <small> {new Date(post.created_at).toLocaleString()} </small>
 
           <br />
-          <button onClick={handleDelete}> 삭제 </button>
-          <button onClick={() => navigate(`/edit/${id}`)}> 수정 </button>
+
+          {
+            (user.userid === post.userid)
+            &&
+            <button onClick={() => navigate(`/edit/${id}`)}> 수정 </button>
+          }
+
+          {
+            (user.userid === post.userid || user.role === 'admin')
+            &&
+            <button onClick={handleDelete}> 삭제 </button>
+          }
+
           <button onClick={() => navigate('/board')}> 돌아가기 </button>
 
         </div>
