@@ -1,63 +1,76 @@
-import { useState } from "react";
+// 라우팅 관련 기능 import
+import { Routes, Route } from "react-router-dom";
+
+// 각 페이지 컴포넌트 import
+import Login from "./Login";
+import Signup from "./Signup";
+
+import Home from "./Home";
+
+import Board from "./Board";
+import Write from "./Write";
+import PostDetail from "./PostDetail";
+import Edit from "./Edit";
+
+
+// 보호된 페이지를 위한 컴포넌트 import
+import ProtectedRoute from "./ProtectedRoute";
 
 function App() {
-  const [id, setId] = useState("");
-  const [password, setPassword] = useState("");
-
-  const handleLogin = async() => {
-    if (!id || !password){
-      console.log("아이디와 패스워드를 입력하세요.");
-      return;
-    }
-
-    try {
-      const res = await fetch("http://localhost:3000/login", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body : JSON.stringify({
-          userid : id,
-          password : password,
-        }),
-      });
-
-      const data = await res.json();
-
-      console.log("서버응답:", data);
-    }
-    catch (err){
-      console.error("에러 발생:", err);
-    }
-  };
-
   return (
-    <div>
-      <h1>로그인</h1>
+    // Routes: 여러 페이지 경로를 관리
+    <Routes>
 
-      <div>
-        <input
-          type="text"
-          placeholder="아이디"
-          value={id}
-          onChange={(e) => setId(e.target.value)}
-        />
-      </div>
+      {/* "/" 경로로 들어오면 Login 페이지 보여줌 */}
+      {/* "/" 경로 → 로그인 페이지 */}
+      <Route path="/" element={<Login />} />
 
-      <div>
-        <input
-          type="password"
-          placeholder="비밀번호"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-        />
-      </div>
+      {/* "/home" 경로 → 보호된 페이지 */}
+      <Route
+        path="/home"
+        element={
+          // 🔥 ProtectedRoute로 감싸서 접근 제어
+          <ProtectedRoute>
+            <Home /> {/* 실제 보여줄 페이지 */}
+          </ProtectedRoute>
+        }
+      />
 
-      <button onClick={handleLogin}>로그인</button>
+      {/* "/signup" 경로 → 회원가입 페이지 */}
+      <Route path="/signup" element={<Signup />} />
 
-      <p>아이디 : {id}</p>
-      <p>비밀번호 : {password}</p>
-    </div>
+      {/* "/login" 경로 → 로그인 페이지 */}
+      <Route path="/login" element={<Login />} />
+
+      {/* 게시판 / 글목록 */}
+      <Route path = "/board" element = {
+        <ProtectedRoute>
+          <Board />
+        </ProtectedRoute>
+      } />
+
+      {/* 게시판 / 글쓰기 */}
+      <Route path = "/write" element = {
+        <ProtectedRoute>
+          <Write />
+        </ProtectedRoute>
+      } />
+
+      {/* 게시판 / 글 상세보기 */}
+      <Route path="/post/:id" element={
+        <ProtectedRoute>
+          <PostDetail />
+        </ProtectedRoute>
+      } />
+
+      {/* 게시판 / 글 수정 */}
+      <Route path="/edit/:id" element={
+        <ProtectedRoute>
+          <Edit />
+        </ProtectedRoute>
+      } />
+
+    </Routes>
   );
 }
 

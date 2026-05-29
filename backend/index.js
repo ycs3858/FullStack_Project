@@ -1,28 +1,23 @@
 const express = require('express');
+const cors = require('cors');
+
 const app = express();
-const mysql = require('mysql2');
 
+// .env 파일 읽기
+require('dotenv').config();
 
-// JSON 요청 처리
+// 라우터 가져오기
+const userRoutes = require('./routes/userRoutes');
+
+// CORS 허용 + JSON 처리
+app.use(cors());
 app.use(express.json());
 
-// DB 연결
-const db = mysql.createConnection({
-  host : 'localhost',
-  user : 'root',
-  password : '3858', // workbench 설정한 비밀번호
-  database : 'testdb'
-});
+// 게시판 라우터 가져오기
+const postRoutes = require('./routes/postRoutes');
 
-db.connect((err) => {
-  if (err){
-    console.error('DB 연결 실패:', err);
-  }
-  else {
-    console.log('DB 연결 성공!');
-  }
-});
-
+// /post로 시작하는 요청 → postRoutes로 전달
+app.use('/post', postRoutes);
 
 
 // 기본 테스트 API
@@ -31,62 +26,8 @@ app.get('/', (req, res) => {
 });
 
 
-// 회원가입 <- 작성중
-app.post('/signup', (req, res) => {
-  const { userid, password } = req.body;
-
-  const sql_check = 'SELECT * FROM userinfo WHERE userid=?';
-  const sql_insert = 'INSERT INTO userinfo (userid, password) VALUES (?, ?)';
-
-  // 아이디 존재 유무 확인
-  db.query(sql_check, [userid], (err, result) => {
-    if (err){
-      console.error(err);
-      return res.send('에러발생');
-    }
-
-    // 아이디가 있는경우
-    if (result.length > 0) {
-      return res.send('이미 사용중인 아이디입니다.');
-    }
-
-    // 아이디가 없는 경우
-    db.query(sql_insert, [userid, password], (err, result) => {
-      if (err) {
-        console.error(err);
-        res.send('회원가입 실패');
-      }
-      else {
-        res.send('회원가입 성공');
-      }
-    });
-
-  });
-
-});
-
-
-// 로그인
-app.post('/login', (req, res) => {
-  const { userid, password } = req.body;
-
-  const sql = 'SELECT * FROM userinfo WHERE userid=? AND password=?';
-
-  db.query(sql, [userid, password], (err, results) => {
-    if (err) {
-      res.send('로그인 실패');
-    }
-    else {
-      if (results.length > 0) {
-        res.send('로그인 성공');
-      }
-      else {
-        res.send('아이디 또는 비밀번호 틀림');
-      }
-    }
-  });
-});
-
+// 🔥 /user로 시작하는 요청을 userRoutes로 전달
+app.use('/user', userRoutes);
 
 
 // 서버 실행
