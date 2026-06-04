@@ -4,7 +4,8 @@ import { Routes, Route } from "react-router-dom";
 // 각 페이지 컴포넌트 import
 // import Login from "./Login";
 import Login from "./pages/login";
-import Signup from "./Signup";
+//import Signup from "./Signup";
+import Signup from "./pages/signup";
 
 import Home from "./Home";
 
