@@ -5,6 +5,9 @@ function Board() {
   const [posts, setPosts] = useState([]);
   const navigate = useNavigate();
 
+  // 프로필 드롭메뉴 사용
+  const [showMenu, setshowMenu] = useState(false);
+
   // 페이지 들어올 때 글 목록 가져오기
   useEffect(() => {
     fetchPosts();
@@ -34,9 +37,33 @@ function Board() {
               LOGO
             </div>
 
-            <button>
-              👤
-            </button>
+            <div className = "relative">
+              <button onClick={() => setshowMenu(!showMenu)}>
+                👤
+              </button>
+
+              {showMenu && (
+                <div className = "absolute right-0 mt-2 w-40 bg-white border rounded-lg shadow-lg">
+                  <button className="block w-full text-left px-4 py-2 hover:bg-gray-100 rounded-lg">
+                    내 정보
+                  </button>
+
+                  <button className="block w-full text-left px-4 py-2 hover:bg-gray-100 rounded-lg">
+                    내 게시물
+                  </button>
+
+                  <button
+                    className = "block w-full text-left px-4 py-2 hover:bg-gray-100 text-red-500 rounded-lg"
+                    onClick={() => {
+                      localStorage.removeItem("token");
+                      navigate("/")
+                    }}  
+                  >
+                    로그아웃
+                  </button>
+                </div>
+              )}
+            </div>
         </header>
 
 
@@ -75,7 +102,7 @@ function Board() {
           <section className = "flex-1 p-6">
             <div className="bg-white rounded-lg shadow">
 
-              <div className = "grid grid-cols-3 font-bold p-4 border-b">
+              <div className = "grid grid-cols-[7fr_2fr_1fr] font-bold p-4 border-b">
                 <div> 제목 </div>
                 <div> 작성자 </div>
                 <div> 작성일</div>
@@ -84,11 +111,11 @@ function Board() {
               {posts.map((post) => (
                 <div
                   key={post.id}
-                  className = "grid grid-cols-3 p-4 border-b hover:bg-gray-50"
+                  className = "grid grid-cols-[7fr_2fr_1fr] p-4 border-b hover:bg-gray-50"
                 >
 
                   <div
-                    className = "cursor-pointer"
+                    className = "truncate cursor-pointer"
                     onClick={() => navigate(`/post/${post.id}`)}
                   >
                     {post.title}
@@ -103,13 +130,11 @@ function Board() {
                 </div>
               ))}
             </div>
-            
-            <button className = "text-left" 
-              onClick={() => navigate("/write")}>글쓰기</button>
           </section>
           
-          <div className = "bg-blue-100">
-            <button 
+          <div>
+            <button
+              className = "bg-blue-100"
               onClick={() => navigate("/write")}
             >
               글쓰기
