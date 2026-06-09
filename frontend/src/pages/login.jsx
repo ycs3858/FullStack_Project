@@ -52,16 +52,10 @@ function Login() {
       if (data.token) {
         // 테스트 로그 등록
 
-
-        // sessionStorage로 변경 (브라우저 닫으면 자동 삭제)
-        // 로그아웃 해야만 삭제할 경우 localStorage로 변경
-        // sessionStorage.setItem("isLogin", "true");
-        // localStorage.setItem("isLogin", "true");
-
         // 토큰 저장
         localStorage.setItem("token", data.token);
 
-        navigate("/home");
+        navigate("/board");
       }
 
 

@@ -9,7 +9,7 @@ import Signup from "./pages/signup";
 
 import Home from "./Home";
 
-import Board from "./Board";
+import Board from "./pages/board";
 import Write from "./Write";
 import PostDetail from "./PostDetail";
 import Edit from "./Edit";
