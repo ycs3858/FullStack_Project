@@ -2,12 +2,14 @@
 import { Routes, Route } from "react-router-dom";
 
 // 각 페이지 컴포넌트 import
-import Login from "./Login";
-import Signup from "./Signup";
+// import Login from "./Login";
+import Login from "./pages/login";
+//import Signup from "./Signup";
+import Signup from "./pages/signup";
 
 import Home from "./Home";
 
-import Board from "./Board";
+import Board from "./pages/board";
 import Write from "./Write";
 import PostDetail from "./PostDetail";
 import Edit from "./Edit";
