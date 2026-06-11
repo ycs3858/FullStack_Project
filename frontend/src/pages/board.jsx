@@ -3,6 +3,10 @@ import { useNavigate } from "react-router-dom";
 
 function Board() {
   const [posts, setPosts] = useState([]);
+  // 페이지네이션에 사용
+  const [currentPage, setCurrentPage] = useState(1);
+
+  // 페이지 이동 네비게이션
   const navigate = useNavigate();
 
   // 프로필 드롭메뉴 사용
@@ -11,10 +15,10 @@ function Board() {
   // 페이지 들어올 때 글 목록 가져오기
   useEffect(() => {
     fetchPosts();
-  }, []);
+  }, [currentPage]);
 
   const fetchPosts = async () => {
-    const res = await fetch("http://localhost:3000/post/list");
+    const res = await fetch(`http://localhost:3000/post/list?page=${currentPage}`);
     const data = await res.json();
 
     console.log(data); // 확인용
@@ -130,6 +134,29 @@ function Board() {
                 </div>
               ))}
             </div>
+            
+            {/* 페이지네이션 */}
+            <div className ="flex justify-center gap-2 mt-6">
+              <button
+                className ="px-3 py-1 border rounded"
+                disabled={currentPage === 1}
+                onClick={() => setCurrentPage(currentPage - 1)}
+              >
+                {"<"}
+              </button>
+
+              <div className = "px-4 py-1">
+                {currentPage}
+              </div>
+
+              <button
+                className = "px-3 py-1 border rounded"
+                onClick={() => setCurrentPage(currentPage + 1)}
+              >
+                {">"}
+              </button>
+            </div>
+            
           </section>
           
           <div>

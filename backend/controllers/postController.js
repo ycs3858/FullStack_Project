@@ -34,9 +34,21 @@ exports.createPost = (req, res) => {
 
 // 글 목록 조회
 exports.getPosts = (req, res) => {
-  const sql = 'SELECT * FROM posts ORDER BY created_at DESC';
+  const page = Number(req.query.page) || 1;
 
-  db.query(sql, (err, results) => {
+  const limit = 10;
+
+  const offset = (page - 1) * limit;
+  
+  // 로그 확인
+  console.log("page=", page);
+  console.log("offset=", offset);
+
+  const sql = 'SELECT * FROM posts ORDER BY created_at DESC LIMIT ? OFFSET ?';
+
+  db.query(sql, [limit, offset], (err, results) => {
+    // 로그 확인
+    console.log("조회 개수 = ", results.length);
     if (err) {
       console.error(err);
       return res.status(500).json({ message: '조회 실패' });
