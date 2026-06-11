@@ -5,6 +5,8 @@ function Board() {
   const [posts, setPosts] = useState([]);
   // 페이지네이션에 사용
   const [currentPage, setCurrentPage] = useState(1);
+  const [total, setTotal] = useState(0);
+  const totalPages = Math.ceil(total / 10);
 
   // 페이지 이동 네비게이션
   const navigate = useNavigate();
@@ -22,7 +24,9 @@ function Board() {
     const data = await res.json();
 
     console.log(data); // 확인용
-    setPosts(data);
+    setPosts(data.posts);
+    
+    setTotal(data.total);
   };
 
     useEffect(() => {
@@ -106,6 +110,9 @@ function Board() {
           <section className = "flex-1 p-6">
             <div className="bg-white rounded-lg shadow">
 
+              <div> 전체 게시글 수 : {total} </div>
+              <div> 전체 페이지 수 : {totalPages} </div>
+
               <div className = "grid grid-cols-[7fr_2fr_1fr] font-bold p-4 border-b">
                 <div> 제목 </div>
                 <div> 작성자 </div>
@@ -145,8 +152,16 @@ function Board() {
                 {"<"}
               </button>
 
-              <div className = "px-4 py-1">
-                {currentPage}
+              <div className = "flex gap-2">
+                {[...Array(totalPages)].map((_, index) => (
+                  <button
+                    key = {index}
+                    className = {`px-3 py-1 border rounded ${
+                    currentPage === index + 1 ? "bg-blue-500 text-white" : ""}`}
+                    onClick={() => setCurrentPage(index+1)}>
+                      {index+1}
+                  </button>
+                ))}
               </div>
 
               <button
@@ -156,7 +171,7 @@ function Board() {
                 {">"}
               </button>
             </div>
-            
+
           </section>
           
           <div>
