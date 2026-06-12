@@ -1,37 +1,44 @@
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
-function Board() {
-  const [posts, setPosts] = useState([]);
-  // 페이지네이션에 사용
-  const [currentPage, setCurrentPage] = useState(1);
-  const [total, setTotal] = useState(0);
-  const totalPages = Math.ceil(total / 10);
+function PostDetail() {
 
-  // 페이지 이동 네비게이션
+  const [post, setPost] = useState(null);
+
   const navigate = useNavigate();
 
   // 프로필 드롭메뉴 사용
   const [showMenu, setshowMenu] = useState(false);
 
-  // 페이지 들어올 때 글 목록 가져오기
+  const { id } = useParams();
+
+  // 토큰 정보 가져오기
+  const token = localStorage.getItem('token');
+
+  const user = JSON.parse(atob(token.split('.')[1]));
+
+  // 페이지 들어올 때 게시글 가져오기
   useEffect(() => {
     fetchPosts();
-  }, [currentPage]);
+  }, [id]);
 
   const fetchPosts = async () => {
-    const res = await fetch(`http://localhost:3000/post/list?page=${currentPage}`);
+    const res = await fetch(`http://localhost:3000/post/detail/${id}`);
     const data = await res.json();
 
-    console.log(data); // 확인용
-    setPosts(data.posts);
-    
-    setTotal(data.total);
+    console.log(data);
+
+    setPost(data);
   };
 
-    useEffect(() => {
-    document.title = "게시판";
-  }, []);
+  const handleDelete = async () => {
+    await fetch(`http://localhost:3000/post/delete/${id}`, 
+      {method: "DELETE",
+        headers : {Authorization : token}
+      });
+
+    navigate ('/board')
+  };
 
   return (
     <div className = "min-h-screen bg-gray-100 flex flex-col">
@@ -74,7 +81,6 @@ function Board() {
             </div>
         </header>
 
-
         {/* 메뉴바 */}
         <nav className = "bg-white border-b">
           <div className = "grid grid-cols-4 text-center px-6 py-3">
@@ -111,86 +117,79 @@ function Board() {
             <div className = "py-5 hover:bg-gray-100"> 자유게시판 </div>
           </aside>
 
-          {/* 게시글 리스트 */}
+          {/* 게시글 */}
           <section className = "flex-1 p-6">
-            <div className="bg-white rounded-lg shadow">
+            {post && (
+              <div className = "bg-white rounded-lg shadow">
 
-              <div> 전체 게시글 수 : {total} </div>
-              <div> 전체 페이지 수 : {totalPages} </div>
-
-              <div className = "grid grid-cols-[7fr_2fr_1fr] font-bold p-4 border-b">
-                <div> 제목 </div>
-                <div> 작성자 </div>
-                <div> 작성일</div>
-              </div>
-
-              {posts.map((post) => (
-                <div
-                  key={post.id}
-                  className = "grid grid-cols-[7fr_2fr_1fr] p-4 border-b hover:bg-gray-50"
-                >
-
-                  <div
-                    className = "truncate cursor-pointer"
-                    onClick={() => navigate(`/post/${post.id}`)}
-                  >
+                {/* 제목 */}
+                <div className = "p-6 border-b">
+                  <h3 className = "text-2xl font-bold break-all">
                     {post.title}
-                  </div>
+                  </h3>
+                </div>
 
-                  <div> {post.userid} </div>
+                {/* 날짜 및 작성자 */}
+                <div className ="flex justify-between p-4 border-b text-gray-600">
+                  <div>
+                    작성자 : {post.userid}
+                  </div>
 
                   <div>
-                    {post.created_at.slice(5,10)}
-                  </div>
+                    작성일자 : {post.created_at.slice(0,10)} <br/>
+                    {/* 작성일자 : {new Date(post.created_at).toLocaleString()} */}
+                  </div>                
+                </div>
+
+                {/* 게시글 내용 */}
+                <div className = "p-6 min-h-[300px] whitespace-pre-wrap break-all">
+                  {post.content}
+                </div>
+
+              </div>
+            )}
+
+            {/* detail button */}
+            <div className = "flex justify-between mt-6">
+              <button
+              className="px-4 py-2 bg-gray-200 rounded hover:bg-gray-300"
+              onClick={() => navigate("/board")}
+              >
+                목록
+              </button>
+
+              {post && (
+                <div className = "flex gap-2">
+                  {
+                    (user.userid === post.userid)
+                    &&
+                    <button
+                      className = "px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
+                      onClick={() => navigate(`/edit/${id}`)}
+                    >
+                      수정
+                    </button>
+                  }
+
+                  {
+                    (user.userid === post.userid || user.role === 'admin')
+                    &&
+                    <button
+                      className = "px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600"
+                      onClick={handleDelete}
+                      >
+                      삭제
+                    </button>
+                  }
 
                 </div>
-              ))}
-            </div>
-            
-            {/* 페이지네이션 */}
-            <div className ="flex justify-center gap-2 mt-6">
-              <button
-                className ="px-3 py-1 border rounded"
-                disabled={currentPage === 1}
-                onClick={() => setCurrentPage(currentPage - 1)}
-              >
-                {"<"}
-              </button>
-
-              <div className = "flex gap-2">
-                {[...Array(totalPages)].map((_, index) => (
-                  <button
-                    key = {index}
-                    className = {`px-3 py-1 border rounded ${
-                    currentPage === index + 1 ? "bg-blue-500 text-white" : ""}`}
-                    onClick={() => setCurrentPage(index+1)}>
-                      {index+1}
-                  </button>
-                ))}
-              </div>
-
-              <button
-                className = "px-3 py-1 border rounded"
-                onClick={() => setCurrentPage(currentPage + 1)}
-              >
-                {">"}
-              </button>
+              )}
             </div>
 
           </section>
-          
-          <div>
-            <button
-              className = "bg-blue-100"
-              onClick={() => navigate("/write")}
-            >
-              글쓰기
-            </button>
-          </div>
         </main>
-
     </div>
   );
 }
 
-export default Board;
+export default PostDetail;

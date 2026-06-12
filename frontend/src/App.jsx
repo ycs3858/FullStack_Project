@@ -11,7 +11,8 @@ import Home from "./Home";
 
 import Board from "./pages/board";
 import Write from "./Write";
-import PostDetail from "./PostDetail";
+import PostDetail from "./pages/postDetail";
+// import PostDetail from "./PostDetail";
 import Edit from "./Edit";
 
 
