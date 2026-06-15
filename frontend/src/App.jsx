@@ -10,10 +10,9 @@ import Signup from "./pages/signup";
 import Home from "./Home";
 
 import Board from "./pages/board";
-import Write from "./Write";
+import Write from "./pages/write";
 import PostDetail from "./pages/postDetail";
-// import PostDetail from "./PostDetail";
-import Edit from "./Edit";
+import Edit from "./pages/edit";
 
 
 // 보호된 페이지를 위한 컴포넌트 import
