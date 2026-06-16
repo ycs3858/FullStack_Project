@@ -46,7 +46,7 @@ function Edit() {
 
   // 게시글 수정 요청 함수
   const handleUpdate = async () => {
-    await fetch (`http://localhost:3000/post/update/${id}`,
+    const res = await fetch (`http://localhost:3000/post/update/${id}`,
         {
             method : 'PUT',
             headers : {
@@ -59,9 +59,13 @@ function Edit() {
             }), 
         });
 
-        alert('수정완료');
+        const data = await res.json();
 
-        navigate(`/post/${id}`);
+        alert(data.message);
+
+        if (res.ok) {
+          navigate(`/post/${id}`);
+        }
   };
 
   return (

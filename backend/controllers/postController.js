@@ -41,8 +41,8 @@ exports.getPosts = (req, res) => {
   const offset = (page - 1) * limit;
   
   // 로그 확인
-  console.log("page=", page);
-  console.log("offset=", offset);
+  //console.log("page=", page);
+  //console.log("offset=", offset);
 
   // 게시글 확인
   const postSql = 'SELECT * FROM posts ORDER BY created_at DESC LIMIT ? OFFSET ?';
@@ -52,7 +52,7 @@ exports.getPosts = (req, res) => {
 
   db.query(postSql, [limit, offset], (err, posts) => {
     // 로그 확인
-    console.log("조회 개수 = ", posts.length);
+    // console.log("조회 개수 = ", posts.length);
     if (err) {
       console.error(err);
       return res.status(500).json({ message: '조회 실패' });
