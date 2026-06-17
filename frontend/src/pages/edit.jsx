@@ -26,7 +26,7 @@ function Edit() {
   const fetchPost = async () => {
 
     // 백엔드에 게시글 상세조회 요청
-    const res = await fetch(`http://localhost:3000/post/detail/${id}`);
+    const res = await fetch(`https://fullstack-project-6982.onrender.com/post/detail/${id}`);
 
     // 응답 데이터를 JSON 형태로 변환
     const data = await res.json();
@@ -46,7 +46,7 @@ function Edit() {
 
   // 게시글 수정 요청 함수
   const handleUpdate = async () => {
-    const res = await fetch (`http://localhost:3000/post/update/${id}`,
+    const res = await fetch (`https://fullstack-project-6982.onrender.com/post/update/${id}`,
         {
             method : 'PUT',
             headers : {

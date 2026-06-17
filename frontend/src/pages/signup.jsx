@@ -28,7 +28,7 @@ function Signup() {
 
     try {
       // 2️⃣ 백엔드 서버로 회원가입 요청 보내기
-      const res = await fetch("http://localhost:3000/user/signup", {
+      const res = await fetch("https://fullstack-project-6982.onrender.com/user/signup", {
         method: "POST", // POST 요청
         headers: {
           "Content-Type": "application/json", // JSON 형식으로 전송

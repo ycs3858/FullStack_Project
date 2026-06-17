@@ -15,7 +15,7 @@ function Home() {
         return;
       }
 
-      const res = await fetch("http://localhost:3000/user/me", {
+      const res = await fetch("https://fullstack-project-6982.onrender.com/user/me", {
         headers: {
           Authorization: token,
         },
@@ -46,7 +46,7 @@ function Home() {
   const checkLogin = async () => {
     const token = localStorage.getItem("token");
 
-    const res = await fetch("http://localhost:3000/user/me", {
+    const res = await fetch("https://fullstack-project-6982.onrender.com/user/me", {
       method: "GET",
       headers: {
       Authorization: token, // 🔥 핵심

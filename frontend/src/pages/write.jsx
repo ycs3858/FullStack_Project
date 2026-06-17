@@ -13,7 +13,7 @@ function Write() {
   const handleSubmit = async () => {
     const token = localStorage.getItem("token");
 
-    const res = await fetch("http://localhost:3000/post/create", {
+    const res = await fetch("https://fullstack-project-6982.onrender.com/post/create", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

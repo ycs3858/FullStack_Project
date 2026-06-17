@@ -29,7 +29,7 @@ function Login() {
 
     try {
       // 백엔드로 로그인 요청 보내기
-      const res = await fetch("http://localhost:3000/user/login", {
+      const res = await fetch("https://fullstack-project-6982.onrender.com/user/login", {
         method: "POST", // POST 방식
         headers: {
           "Content-Type": "application/json", // JSON 형태로 보냄
