@@ -1,12 +1,19 @@
 // mysql2 라이브러리 불러오기
 const mysql = require('mysql2');
 
+const fs = require('fs');
+
 // DB 연결 설정
 const db = mysql.createConnection({
   host: process.env.DB_HOST,
   user: process.env.DB_USER,
   password: process.env.DB_PASSWORD,
-  database: process.env.DB_NAME
+  database: process.env.DB_NAME,
+  port : process.env.DB_PORT,
+
+  ssl: {
+    ca: fs.readFileSync('./cert/ca.pem')
+  }
 });
 
 // DB 연결 실행
