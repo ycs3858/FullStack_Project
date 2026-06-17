@@ -3,6 +3,12 @@ const mysql = require('mysql2');
 
 const fs = require('fs');
 
+
+console.log("HOST:", process.env.DB_HOST);
+console.log("PORT:", process.env.DB_PORT);
+console.log("CA exists:", fs.existsSync('./cert/ca.pem'));
+
+
 // DB 연결 설정
 const db = mysql.createConnection({
   host: process.env.DB_HOST,
