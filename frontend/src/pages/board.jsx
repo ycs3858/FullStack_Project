@@ -171,6 +171,7 @@ function Board() {
 
               <button
                 className = "px-3 py-1 border rounded"
+                disabled={currentPage === totalPages}
                 onClick={() => setCurrentPage(currentPage + 1)}
               >
                 {">"}
