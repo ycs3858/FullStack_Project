@@ -20,7 +20,7 @@ function Board() {
   }, [currentPage]);
 
   const fetchPosts = async () => {
-    const res = await fetch(`http://localhost:3000/post/list?page=${currentPage}`);
+    const res = await fetch(`https://fullstack-project-6982.onrender.com/post/list?page=${currentPage}`);
     const data = await res.json();
 
     console.log(data); // 확인용
@@ -171,6 +171,7 @@ function Board() {
 
               <button
                 className = "px-3 py-1 border rounded"
+                disabled={currentPage === totalPages}
                 onClick={() => setCurrentPage(currentPage + 1)}
               >
                 {">"}

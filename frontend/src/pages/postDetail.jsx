@@ -23,7 +23,7 @@ function PostDetail() {
   }, [id]);
 
   const fetchPosts = async () => {
-    const res = await fetch(`http://localhost:3000/post/detail/${id}`);
+    const res = await fetch(`https://fullstack-project-6982.onrender.com/post/detail/${id}`);
     const data = await res.json();
 
     console.log(data);
@@ -32,7 +32,7 @@ function PostDetail() {
   };
 
   const handleDelete = async () => {
-    await fetch(`http://localhost:3000/post/delete/${id}`, 
+    await fetch(`https://fullstack-project-6982.onrender.com/post/delete/${id}`, 
       {method: "DELETE",
         headers : {Authorization : token}
       });
