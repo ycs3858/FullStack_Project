@@ -7,6 +7,8 @@ function PostDetail() {
 
   const [comments, setComments] = useState([]);
 
+  const [comment, setComment] = useState("");
+
   const navigate = useNavigate();
 
   // 프로필 드롭메뉴 사용
@@ -43,6 +45,7 @@ function PostDetail() {
     navigate ('/board')
   };
 
+  // 댓글 조회
   const fetchComments = async () => {
     const res = await fetch(
       `https://fullstack-project-6982.onrender.com/comment/${id}`
@@ -53,6 +56,35 @@ function PostDetail() {
     console.log(data);
 
     setComments(data);
+  };
+
+  // 댓글 작성
+  const handleComment = async () => {
+
+    if (comment.trim() === "") {
+      alert("댓글을 입력해주세요.");
+      return;
+    }
+
+    await fetch(
+      "https://fullstack-project-6982.onrender.com/comment",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+
+        body: JSON.stringify({
+          post_id: id,
+          userid: user.userid,
+          content:comment
+        })
+      }
+    );
+
+    setComment("");
+
+    fetchComments();
   };
 
   return (
@@ -192,6 +224,20 @@ function PostDetail() {
 
                 </div>
               )))}
+
+              <div className="mt-6">
+
+                <textarea className="w-full border rounded p-2" rows="3"
+                  placeholder="댓글을 입력하세요."
+                  value={comment}
+                  onChange={(e) => setComment(e.target.value)}/>
+
+                <div className ="flex justify-end mt-2">
+                  <button className ="bg-blue-500 text-white px-4 py-2 rounded" onClick={handleComment}>
+                    댓글 작성
+                  </button>
+                </div>
+              </div>
             </div>
 
             {/* detail button */}
