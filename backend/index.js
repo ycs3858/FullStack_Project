@@ -29,6 +29,10 @@ app.get('/', (req, res) => {
 // 🔥 /user로 시작하는 요청을 userRoutes로 전달
 app.use('/user', userRoutes);
 
+// 댓글 api 요청
+const commentRoutes = require('./routes/commentRoutes');
+app.use('/comment', commentRoutes);
+
 
 // 서버 실행
 const PORT = process.env.PORT || 3000;

@@ -5,6 +5,8 @@ function PostDetail() {
 
   const [post, setPost] = useState(null);
 
+  const [comments, setComments] = useState([]);
+
   const navigate = useNavigate();
 
   // 프로필 드롭메뉴 사용
@@ -20,6 +22,7 @@ function PostDetail() {
   // 페이지 들어올 때 게시글 가져오기
   useEffect(() => {
     fetchPosts();
+    fetchComments();
   }, [id]);
 
   const fetchPosts = async () => {
@@ -38,6 +41,18 @@ function PostDetail() {
       });
 
     navigate ('/board')
+  };
+
+  const fetchComments = async () => {
+    const res = await fetch(
+      `https://fullstack-project-6982.onrender.com/comment/${id}`
+    );
+
+    const data = await res.json();
+
+    console.log(data);
+
+    setComments(data);
   };
 
   return (
@@ -148,6 +163,36 @@ function PostDetail() {
 
               </div>
             )}
+
+            {/* 댓글 */}
+            <div className="bg-white rounded-lg shadow mt-6 p-6">
+
+              <h2 className="text-xl font-bold mb-4">
+                댓글
+              </h2>
+
+              {comments.length === 0 ? (
+                <div className="text-gray-500">
+                  작성된 댓글이 없습니다.
+                </div>
+              ) : (comments.map((comment) => (
+                <div key={comment.id} className = "border-b py-3">
+
+                  <div className = "font-bold">
+                    {comment.userid}
+                  </div>
+
+                  <div className = "mt-1 whitespace-pre-wrap">
+                    {comment.content}
+                  </div>
+
+                  <div className="text-sm text-gray-500 mt-1">
+                    {comment.created_at.slice(0, 10)}
+                  </div>
+
+                </div>
+              )))}
+            </div>
 
             {/* detail button */}
             <div className = "flex justify-between mt-6">
