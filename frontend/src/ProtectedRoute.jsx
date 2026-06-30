@@ -26,7 +26,7 @@ function ProtectedRoute({ children }) {
 
       // 백엔드에 현재 로그인 상태 확인 요청
       const res = await fetch(
-        "http://localhost:3000/user/me",
+        "https://fullstack-project-6982.onrender.com/user/me",
         {
           headers: {
             Authorization: token,
