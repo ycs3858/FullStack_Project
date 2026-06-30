@@ -8,6 +8,8 @@ from "react-router-dom";
 // children: 감싸진 실제 페이지
 function ProtectedRoute({ children }) {
 
+  console.log("ProtectedRoute 실행");
+
   // 페이지 이동 기능
   const navigate = useNavigate();
 
