@@ -44,3 +44,54 @@ exports.createComment = (req, res) => {
     }
   );
 };
+
+// 댓글 삭제
+exports.deleteComment = (req, res) =>{
+  
+  const commentId = req.params.id;
+  const loginUser = req.user.userid;
+  const loginRole = req.user.role;
+
+  // 작성자 확인 DB
+  const commentCheckSql = `SELECT userid from comments WHERE id = ?`;
+
+  db.query(commentCheckSql, [commentId], (err, results) => {
+
+    // DB 에러 발생 시
+    if(err){
+      console.error(err);
+      return res.send('에러 발생');
+    }
+
+    // 댓글이 없는 경우
+    if (results.length == 0){
+      return res.send('댓글 없음')
+    }
+
+    // 댓글 작성자 조회
+    const commentUser = results[0].userid;
+
+    // 권한 검사
+    if(loginUser !== commentUser && loginRole !== 'admin'){
+      return res.status(403).json({
+        message : '삭제 권한 없음'
+      });
+    }
+
+    // 삭제 DB 실행
+    const commentDeleteSql = 'DELETE FROM comments WHERE id = ?';
+
+    // DB 실행
+    db.query(commentDeleteSql, [commentId], (err, result) => {
+      if (err){
+        console.error(err);
+        return res.send('삭제 실패');
+      }
+
+      return res.json({
+        message : "삭제 완료"
+      });
+
+    })
+  })
+};

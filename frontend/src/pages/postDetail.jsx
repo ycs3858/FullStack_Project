@@ -36,6 +36,7 @@ function PostDetail() {
     setPost(data);
   };
 
+  // 게시글 삭제
   const handleDelete = async () => {
     await fetch(`https://fullstack-project-6982.onrender.com/post/delete/${id}`, 
       {method: "DELETE",
@@ -84,6 +85,21 @@ function PostDetail() {
 
     setComment("");
 
+    fetchComments();
+  };
+
+  // 댓글 삭제
+  const handleDeleteComment = async () => {
+
+    const res = await fetch(`https://fullstack-project-6982.onrender.com/comment/${commentId}`,
+      {
+        method:"DELETE",
+        headers : {Authorization : token}
+      }
+    );
+
+    const data = await res.json();
+    alert(data.message);
     fetchComments();
   };
 
@@ -212,6 +228,17 @@ function PostDetail() {
 
                   <div className = "font-bold">
                     {comment.userid}
+
+                    <div>
+                      {(user.userid === comments.userid || user.role === 'admin')
+                      &&
+                      <button classname = "px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600"
+                        onClick={handleDeleteComment}
+                      >
+                        삭제
+                      </button>
+                      }
+                    </div>
                   </div>
 
                   <div className = "mt-1 whitespace-pre-wrap">
