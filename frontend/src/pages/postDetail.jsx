@@ -89,7 +89,7 @@ function PostDetail() {
   };
 
   // 댓글 삭제
-  const handleDeleteComment = async () => {
+  const handleDeleteComment = async (commentId) => {
 
     const res = await fetch(`https://fullstack-project-6982.onrender.com/comment/${commentId}`,
       {
@@ -233,7 +233,7 @@ function PostDetail() {
                       {(user.userid === comment.userid || user.role === 'admin')
                       &&
                       <button className = "px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600"
-                        onClick={handleDeleteComment}
+                        onClick={() => handleDeleteComment(comment.id)}
                       >
                         삭제
                       </button>
