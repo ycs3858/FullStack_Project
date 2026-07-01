@@ -232,7 +232,7 @@ function PostDetail() {
                     <div>
                       {(user.userid === comments.userid || user.role === 'admin')
                       &&
-                      <button classname = "px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600"
+                      <button className = "px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600"
                         onClick={handleDeleteComment}
                       >
                         삭제
