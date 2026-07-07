@@ -95,3 +95,63 @@ exports.deleteComment = (req, res) =>{
     })
   })
 };
+
+// 댓글 수정
+exports.updateComment = (req, res) => {
+  
+  const commentId = req.params.id;
+  const loginUser = req.user.userid;
+
+  const {content} = req.body;
+
+  // 댓글 내용 검사 함수
+  if (!content || content.trim() === ""){
+    return res.status(400).json({
+      message : "댓글 내용을 작성하세요."
+    });
+  }
+
+  const checkSql = 'SELECT userid FROM comments WHERE id = ?'
+
+  // db 실행
+  db.query(checkSql, [commentId], (err, results) => {
+
+    if (err){
+      console.error(err);
+      return res.send('에러 발생');
+    }
+
+    // 댓글이 없는 경우
+    if (results.length == 0){
+      return res.send("댓글 없음")
+    }
+
+    // 댓글 작성자 가져오기
+    const commentUser = results[0].userid;
+
+    // 권한 검사
+    if (loginUser !== commentUser){
+      return res.status(403).json({
+        message : '수정 권한 없음'
+      });
+    }
+
+    // 수정 sql
+    const updateCommentSql = "UPDATE comments SET content=? WHERE id=?";
+
+    // db 실행
+    db.query(updateCommentSql, [content, commentId], (err, result) => {
+
+      // 에러 발생
+      if (err) {
+        console.error(err);
+        return res.send('수정 실패');
+      }
+
+      // 성공
+      return res.json({
+        message : '수정 성공'
+      });
+    });
+  });
+};

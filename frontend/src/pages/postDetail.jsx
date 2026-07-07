@@ -21,6 +21,10 @@ function PostDetail() {
 
   const user = JSON.parse(atob(token.split('.')[1]));
 
+  // 댓글 수정 변수 저장
+  const [editingCommentId, setEditingCommentId] = useState(null);
+  const [editContent, setEditContent] = useState("");
+
   // 페이지 들어올 때 게시글 가져오기
   useEffect(() => {
     fetchPosts();
@@ -103,6 +107,8 @@ function PostDetail() {
     fetchComments();
   };
 
+
+  // 페이지 내용
   return (
     <div className = "min-h-screen bg-gray-100 flex flex-col">
 
@@ -230,6 +236,17 @@ function PostDetail() {
                     {comment.userid}
 
                     <div>
+                      {(user.userid === comment.userid)
+                      &&
+                      <button className = "px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
+                        onClick={() => 
+                        {setEditingCommentId(comment.id);
+                          setEditContent(comment.content);
+                        }}>
+                        수정
+                      </button>}
+
+
                       {(user.userid === comment.userid || user.role === 'admin')
                       &&
                       <button className = "px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600"
@@ -242,7 +259,11 @@ function PostDetail() {
                   </div>
 
                   <div className = "mt-1 whitespace-pre-wrap">
-                    {comment.content}
+                    {(editingCommentId === comment.id ? 
+                    <textarea
+                      className = "w-full border rounded p-2 mt-2" row="3"
+                      value={editContent}
+                      onChange={(e) => setEditContent(e.target.value)}/> : (comment.content))}
                   </div>
 
                   <div className="text-sm text-gray-500 mt-1">
