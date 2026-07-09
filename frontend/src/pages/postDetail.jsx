@@ -299,7 +299,7 @@ function PostDetail() {
                         저장
                       </button> 
                       <button
-                        className = "px-4 py-2 bg-red-500 text-white rounded hover:bg-gray-600"
+                        className = "px-4 py-2 bg-gray-500 text-white rounded hover:bg-gray-600"
                         onClick={() => {setEditingCommentId(null); setEditContent("");}}
                       >
                         취소
