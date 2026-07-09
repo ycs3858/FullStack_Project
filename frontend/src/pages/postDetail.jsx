@@ -292,8 +292,18 @@ function PostDetail() {
                       value={editContent}
                       onChange={(e) => setEditContent(e.target.value)}
                     />
-                      <button onClick={() => handleUpdateComment(comment.id)}>저장</button> 
-                      <button onClick={() => {setEditingCommentId(null); setEditContent("");}}>취소</button> </>
+                      <button
+                        className = "px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
+                        onClick={() => handleUpdateComment(comment.id)}
+                      >
+                        저장
+                      </button> 
+                      <button
+                        className = "px-4 py-2 bg-red-500 text-white rounded hover:bg-gray-600"
+                        onClick={() => {setEditingCommentId(null); setEditContent("");}}
+                      >
+                        취소
+                      </button> </>
                     )
                       : (comment.content))}
                   </div>  
@@ -348,7 +358,7 @@ function PostDetail() {
                     <button
                       className = "px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600"
                       onClick={handleDelete}
-                      >
+                    >
                       삭제
                     </button>
                   }
