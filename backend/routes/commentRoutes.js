@@ -13,3 +13,6 @@ router.post('/', commentController.createComment);
 module.exports = router;
 
 router.delete("/:id", verifyToken, commentController.deleteComment);
+
+// 글 수정하기
+router.put('/:id', verifyToken, commentController.updateComment);
