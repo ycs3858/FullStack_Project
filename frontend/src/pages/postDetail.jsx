@@ -107,6 +107,30 @@ function PostDetail() {
     fetchComments();
   };
 
+  // 댓글 수정
+  const handleUpdateComment = async (commentId) => {
+    const res = await fetch(`https://fullstack-project-6982.onrender.com/comment/${commentId}`,
+      {
+        method : "PUT",
+        headers : {
+          'Content-Type' : 'application/json', Authorization : token
+        },
+        body : JSON.stringify({
+          content : editContent
+        })
+      }
+    );
+
+    const data = await res.json();
+    alert(data.message);
+
+    if (res.ok){
+      setEditingCommentId(null);
+      setEditContent("");
+      fetchComments();
+    }
+  };
+
 
   // 페이지 내용
   return (
@@ -259,12 +283,20 @@ function PostDetail() {
                   </div>
 
                   <div className = "mt-1 whitespace-pre-wrap">
-                    {(editingCommentId === comment.id ? 
+                    {(editingCommentId === comment.id ?
+                    (
+                    <>
                     <textarea
-                      className = "w-full border rounded p-2 mt-2" row="3"
+                      className = "w-full border rounded p-2 mt-2"
+                      rows="3"
                       value={editContent}
-                      onChange={(e) => setEditContent(e.target.value)}/> : (comment.content))}
-                  </div>
+                      onChange={(e) => setEditContent(e.target.value)}
+                    />
+                      <button onClick={() => handleUpdateComment(comment.id)}>저장</button> 
+                      <button onClick={() => {setEditingCommentId(null); setEditContent("");}}>취소</button> </>
+                    )
+                      : (comment.content))}
+                  </div>  
 
                   <div className="text-sm text-gray-500 mt-1">
                     {comment.created_at.slice(0, 10)}
